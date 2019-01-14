@@ -1,0 +1,77 @@
+{
+  "name": "chai-io",
+  "version": "0.0.1",
+  "description": "Extend Chai Assertion Library with tests for socket.io apis",
+  "author": "Matthieu Balmes <matthieu.balmes@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "chai",
+    "chai-plugin",
+    "browser",
+    "websocket",
+    "socket.io",
+    "vendor",
+    "supertest",
+    "superagent"
+  ],
+  "contributors": [
+    "Matthieu Balmes <matthieu.balmes@gmail.com>"
+  ],
+  "files": [
+    "dist/chai-io.js",
+    "lib/*.js",
+    "index.js",
+    "types/index.d.ts"
+  ],
+  "main": "./index",
+  "types": "./types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:paztek/chai-io.git"
+  },
+  "scripts": {
+    "build": "npm run build:readme && npm run build:js && npm run build:ts",
+    "prebuild:js": "rm -rf dist",
+    "build:js": "simplifyify lib/socket.js --outfile dist/chai-io.js --bundle --minify --debug --standalone chaiIo",
+    "build:ts": "cd types && tsc",
+    "build:readme": "rm -rf README.md && node ./support/readme",
+    "start": "npm-run-all --parallel watch server",
+    "watch": "npm run build:js -- --watch",
+    "server": "http-server -o -c-1",
+    "test": "istanbul cover --report lcovonly _mocha",
+    "posttest": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi"
+  },
+  "browser": {
+    "http": false,
+    "https": false,
+    "net": "./lib/net.js",
+    "querystring": "qs"
+  },
+  "dependencies": {
+    "@types/chai": "4",
+    "@types/socket.io": "^2.1.2",
+    "@types/superagent": "^3.8.3",
+    "cookiejar": "^2.1.1",
+    "is-ip": "^2.0.0",
+    "methods": "^1.1.2",
+    "qs": "^6.5.1",
+    "socket.io-client": "^2.2.0",
+    "superagent": "^3.7.0"
+  },
+  "devDependencies": {
+    "chai": "4",
+    "coveralls": "^3.0.0",
+    "dox": "^0.9.0",
+    "es6-shim": "^0.35.1",
+    "http-server": "^0.10.0",
+    "istanbul": "^0.4.3",
+    "mocha": "^4.0.1",
+    "npm-run-all": "^4.1.1",
+    "simplifyify": "^4.0.0",
+    "socket.io": "^2.2.0",
+    "typescript": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=4"
+  }
+}
